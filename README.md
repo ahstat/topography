@@ -14,7 +14,7 @@ or directly see images in the "outputs" folder.
 On the blog post, I also explain how to collect and pre-process data before
 applying this code.
 
-##Some outputs
+**Some outputs**
 
 *World with 100m increase of the sea level*
 ![World with 100m increase of the sea level](outputs/world/outputs1920/world100.png) 
