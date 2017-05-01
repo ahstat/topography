@@ -1,5 +1,5 @@
 rm(list = ls())
-#setwd("E:/blogprojects/2014-1-11-Topography/code/")
+#setwd("E:/to/your/directory/")
 source("helpers/filled_contour_no_legend.R")
 source("helpers/topography_plot.R")
 source("helpers/topography_plot_all.R")
@@ -12,11 +12,13 @@ library(data.table)
 #name of the objects
 space_names=c("world", "moon", "mars", "venus")
 
-#data directory for the objects
+#data directory for the objects.
+# The files have been reduced in size. You may want to get higher
+# resolution outputs by downloading directly raw files.
 datas=c("data/world/etopo10_bedrock.xyz",
-        "data/moon/moonReduced1-1.txt",
+        "data/moon/moonReduced2-2.txt", # moonReduced1-1.txt
         "data/mars/megt90n000cb_xyz.txt",
-        "data/venus/MagellanReduced2-2.txt")
+        "data/venus/MagellanReduced3-3.txt") # MagellanReduced2-2.txt
 
 # data unit is kilometers? (instead of meters)
 is_values_kilometres=c(FALSE,TRUE,FALSE,FALSE)
