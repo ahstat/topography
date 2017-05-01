@@ -9,11 +9,21 @@ the intermediate altitudes like plains (green), and the lowest like water
 (blue or deep blue).
 
 You can check out the related blog post here: https://ahstat.github.io/Topography/
-or directly see images in the outputs/ folder.
+or directly see images in the <pre>outputs/</pre> folder.
 
 On the blog post, I also explain how to collect and pre-process data before
 applying this code.
 
+**Some outputs**
+
+*World with 100m increase of sea level*
 ![World with 100m increase of sea level](outputs/world/outputs1920/world100.png) 
 
+*The Moon with about 70% of the surface covered by water*
+![The Moon with about 70% of the surface covered by water](outputs/moon/outputs1920/moon305.png) 
 
+*Venus with about 70% of the surface covered by water*
+![Venus with about 70% of the surface covered by water](outputs/world/outputs1920/venus965.png) 
+
+*Mars with about 70% of the surface covered by water*
+![Mars with about 70% of the surface covered by water](outputs/world/outputs1920/mars1436.png) 
