@@ -1,4 +1,5 @@
 rm(list = ls())
+setwd("E:/gitperso/topography/")
 #setwd("E:/to/your/directory/")
 source("helpers/filled_contour_no_legend.R")
 source("helpers/topography_plot.R")
