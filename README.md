@@ -28,11 +28,11 @@ applying this code.
 *Mars with about 70% of the surface covered by water*
 ![Mars with about 70% of the surface covered by water](outputs/mars/outputs1920/mars1436.png) 
 
-*North hemisphere of Mercury*
-![North hemisphere of Mercury](outputs/mercury_polar55N/outputs1920/mercury_polar55N4656.8625.png) 
+*Mercury above 55th parallel north (the center of the map is the North Pole)
+![Mercury above 55th parallel north](outputs/mercury_polar55N/outputs1920/mercury_polar55N4656.8625.png) 
 
 *A reversed world*
 ![A reversed world](outputs/reversed_world/outputs1920/reversed_world0.png) 
 
-*Sub world*
-![Sub world](outputs/sub_world/outputs1920/sub_world0.png)
+*Subworld*
+![Subworld](outputs/sub_world/outputs1920/sub_world0.png)
