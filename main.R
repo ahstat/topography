@@ -15,7 +15,7 @@ options("max.contour.segments"= 300000)
 #
 # If we only have an image (such as .png of .jpg) of the topography, we can 
 # use GIMP to export this image in the .pgm format, then convert this .pgm file
-# to a .xyz one. See README.md
+# to a .xyz one. See https://ahstat.github.io/Topography/ for pre-process info.
 #
 # The main function is topography_load_and_plot, here are the parameters:
 #
