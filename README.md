@@ -17,7 +17,7 @@ applying this code.
 **Some outputs**
 
 *World with 100m increase of the sea level*
-![World with 100m increase of the sea level](outputs/world/outputs1920/world100.png) 
+![World with 100m increase of the sea level](outputs/world/world100.png) 
 
 *The Moon with about 70% of the surface covered by water*
 ![The Moon with about 70% of the surface covered by water](outputs/moon/outputs1920/moon305.png) 
