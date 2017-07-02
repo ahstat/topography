@@ -1,9 +1,9 @@
 ##
 # filled.contour function without legend
 ##
-#The filled.contour function already existsi in R. 
-#We take it and comment out the legend.
-filled.contour.nolegend = function (x = seq(0, 1, length.out = nrow(z)), 
+# The filled.contour function already exists in R. 
+# We take it and remove the legend.
+filled.contour_nolegend = function (x = seq(0, 1, length.out = nrow(z)), 
                                     y = seq(0, 1, length.out = ncol(z)), 
                                     z, 
                                     xlim = range(x, finite = TRUE), 
@@ -38,30 +38,30 @@ filled.contour.nolegend = function (x = seq(0, 1, length.out = nrow(z)),
   }
   if (any(diff(x) <= 0) || any(diff(y) <= 0)) 
     stop("increasing 'x' and 'y' values expected")
-  #mar.orig <- (par.orig <- par(c("mar", "las", "mfrow")))$mar
-  #on.exit(par(par.orig))
-  #w <- (3 + mar.orig[2L]) * par("csi") * 2.54
-  #layout(matrix(c(2, 1), ncol = 2L), widths = c(1, lcm(w)))
-  #par(las = las)
-  #mar <- mar.orig
-  #mar[4L] <- mar[2L]
-  #mar[2L] <- 1
-  #par(mar = mar)
-  #plot.new()
-  #plot.window(xlim = c(0, 1), ylim = range(levels), xaxs = "i", 
-  #    yaxs = "i")
-  #rect(0, levels[-length(levels)], 1, levels[-1L], col = col)
-  #if (missing(key.axes)) {
-  #    if (axes) 
-  #        axis(4)
-  #}
-  #else key.axes
-  #box()
-  #if (!missing(key.title)) 
-  #    key.title
-  #mar <- mar.orig
-  #mar[4L] <- 1
-  #par(mar = mar)
+  # mar.orig <- (par.orig <- par(c("mar", "las", "mfrow")))$mar
+  # on.exit(par(par.orig))
+  # w <- (3 + mar.orig[2L]) * par("csi") * 2.54
+  # layout(matrix(c(2, 1), ncol = 2L), widths = c(1, lcm(w)))
+  # par(las = las)
+  # mar <- mar.orig
+  # mar[4L] <- mar[2L]
+  # mar[2L] <- 1
+  # par(mar = mar)
+  # plot.new()
+  # plot.window(xlim = c(0, 1), ylim = range(levels), xaxs = "i", 
+  #     yaxs = "i")
+  # rect(0, levels[-length(levels)], 1, levels[-1L], col = col)
+  # if (missing(key.axes)) {
+  #     if (axes) 
+  #         axis(4)
+  # }
+  # else key.axes
+  # box()
+  # if (!missing(key.title)) 
+  #     key.title
+  # mar <- mar.orig
+  # mar[4L] <- 1
+  # par(mar = mar)
   plot.new()
   plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp)
   if (!is.matrix(z) || nrow(z) <= 1L || ncol(z) <= 1L) 

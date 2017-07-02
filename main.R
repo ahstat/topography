@@ -1,64 +1,336 @@
 rm(list = ls())
 setwd("E:/gitperso/topography/")
 #setwd("E:/to/your/directory/")
+source("helpers/convert_to_xyz.R")
 source("helpers/filled_contour_no_legend.R")
 source("helpers/topography_plot.R")
 source("helpers/topography_plot_all.R")
 # install.packages("data.table")
 library(data.table)
+options("max.contour.segments"= 300000)
 
-##
-# Parameters
-##
-#name of the objects
-space_names=c("world", "moon", "mars", "venus")
+# This code can plot topographic map of all data saved the xyz format, 
+# i.e. a file with 3 columns, respectively related to the longitude, latitude
+# and altitude.
+#
+# If we only have an image (such as .png of .jpg) of the topography, we can 
+# use GIMP to export this image in the .pgm format, then convert this .pgm file
+# to a .xyz one. See README.md
+#
+# The main function is topography_load_and_plot, here are the parameters:
+#
+# - space_name: name of the object,
+#
+# - data: file path to the xyz object,
+#
+# - coeff: such that 1 raw = coeff meters
+# Example: when coeff = 1000, a value of z=1 in the xyz file corresponds
+# to 1000 meters.
+#
+# - shift: the value z=shift in the xyz object corresponds to the sea level.
+# It can be numeric or a string of the form "quantile level" where "level" is
+# between 0 and 1.
+# Example: when shift=0.305, the sea corresponds to all values in the xyz
+# object lower than 0.305.
+# Example: when shift="quantile 0.75", we take the 0.75 quantile of z and
+# define this value as the shift.
+#
+# - shift_type: the three options are "", "1000by1000" and "finer".
+# * When shift_type = "", we draw only the plot with a shift of `shift`,
+# * When shift_type = "1000by1000", we draw all possible plots with a shift of
+# `shift ¡À k*1000/coeff`. 
+# Example: For the Earth and `shift = 0`, we draw plots with a shift of:
+# -10000, -9000, ..., 6000.
+# * When shift_type = "finer", we draw the plots with shift_type = "1000by1000",
+# and add plots with a shift between -1000m and 1000m by steps of 100m, 
+#                    a shift between -100m and 100m by steps of 10m, 
+#                    a shift between -10m and 10m by steps of 1m.
+#
+# - list_sizes: a list of size of outputs of the form c(width, height)
+#
+# - subfolder: If NA, let the outputs in the directory: `outputs/space_name`,
+# Otherwise, let the outputs in: `outputs/subfolder/space_name`.
+#
+# - function_on_z: If non NA, we apply a function on the altitude z before
+# plotting. This is used for reversed world and sub world plots.
+#
+# - new_intervals: If non NA, new_intervals should be a numeric vector of 
+# size 30 remapping the interval related to each color.
+#
+# - contour_level: By default, the contour is related to the sea level. This
+# can be changed to any other level.
 
-#data directory for the objects.
-# The files have been reduced in size. You may want to get higher
-# resolution outputs by downloading directly raw files.
-datas=c("data/world/etopo10_bedrock.xyz",
-        "data/moon/moonReduced2-2.txt", # moonReduced1-1.txt
-        "data/mars/megt90n000cb_xyz.txt",
-        "data/venus/MagellanReduced3-3.txt") # MagellanReduced2-2.txt
-
-# data unit is kilometers? (instead of meters)
-is_values_kilometres=c(FALSE,TRUE,FALSE,FALSE)
-
-# plot 1000m by 1000m or 100m by 100m
-shift_types=c("1000by1000_and_100by100", rep("1000by1000",3))
-#shift_types=rep("",4) # other option
-
-# shift in meters defined to have about 70% of the surface covered by water
-values0=c(0,305,1436,965)
-
-# size of outputs
-list_sizes=list(c(480, 270), c(1024, 576),
-                c(1280, 720), c(1920, 1080))
-
-##
-# Code
-##
-for(k in 1:length(space_names)) {
-  space_name=space_names[k]
-  df=fread(datas[k])
-  value0=values0[k]
-  is_values_kilometre=is_values_kilometres[k]
-  shift_type=shift_types[k]
-  
-  print(paste("Plotting ", space_name, "...", sep = ""))
-  
-  ## Extract (x,y,z) position from df
-  #we put in order to have increasing longitude and latitude vectors
-  df=df[order(df$V2),]
-  df=as.matrix(df)
-  x=unique(df[,1]) #longitude
-  y=unique(df[,2]) #latitude
-  z=matrix(df[,3],ncol=length(y)) #height for each ordered pair (x,y)
-  
-  topography.plot.all(x, y, z,
-                      space_name,
-                      is_values_kilometre,
-                      shift_type,
-                      value0,
-                      list_sizes)
+#######################################
+# Convert .pgm and .asc files to .xyz #
+#######################################
+for(file in pgm_files()) {
+  convert_to_xyz(file)
 }
+
+file = "data/others/earth_density/glds00g15.asc"
+convert_to_xyz(file, extension = "asc")
+
+#########################
+# Plot topographic maps #
+#########################
+##
+# World
+##
+space_name = "world"
+data = "data/world/etopo10_bedrock.xyz"
+coeff = 1
+shift = 0
+
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "finer"
+list_sizes = list(c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Moon
+##
+space_name = "moon"
+data = "data/moon/moonReduced2-2.xyz" # moonReduced1-1.xyz
+coeff = 1000
+shift = 0.305 # defined to have about 70% of the surface covered by water
+
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "1000by1000"
+list_sizes = list(c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Mars
+##
+space_name = "mars"
+data = "data/mars/megt90n000cb.xyz"
+coeff = 1
+shift = 1436 # defined to have about 70% of the surface covered by water
+
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "1000by1000"
+list_sizes = list(c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Venus
+##
+space_name = "venus"
+data = "data/venus/MagellanReduced3-3.xyz" # MagellanReduced2-2.xyz
+coeff = 1
+shift = 965 # defined to have about 70% of the surface covered by water
+
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "1000by1000"
+list_sizes = list(c(1920, 1080))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Mercury beyond 55N
+##
+# The altitude in the .xyz file is encoded in [0, 255]
+# We take `coeff` such that 255 raw = 255*coeff meters = 9500 meters,
+# the highest altitude of Mercury
+space_name = "mercury_polar55N"
+data = "data/mercury_polar55N/mercury_polar55N.xyz"
+coeff = 37.2549
+shift = 125 # defined to have about 70% of the north hemisphere covered by water
+
+shift_type = ""
+list_sizes = list(c(480, 480), c(1024, 1024), c(1280, 1280), c(1920, 1920))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "1000by1000"
+list_sizes = list(c(1920, 1920))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Mercury north hemisphere
+##
+space_name = "mercury_north_hemisphere"
+data = "data/mercury_north_hemisphere/mercury_north_hemisphere-4096.xyz"
+coeff = 37.2549
+shift = 125 # defined to have about 70% of the north hemisphere covered by water
+
+shift_type = ""
+list_sizes = list(c(480, 126), c(1024, 269), c(1280, 337), c(1920, 505), c(4096, 1077))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+shift_type = "1000by1000"
+list_sizes = list(c(1920, 505))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+
+##
+# Astres
+##
+space_names = list.dirs("data/others", recursive = FALSE, full.names = FALSE)
+datas = list.dirs("data/others", recursive = FALSE)
+
+# Only take 'astre'
+type_object = sapply(strsplit(space_names, "_"), function(x){x[[1]]})
+space_names = space_names[type_object == "astre"]
+datas = datas[type_object == "astre"]
+
+# Remove titan (this object will be managed with different coefficients)
+idx_to_remove = which(space_names == "astre_titan")
+space_names = space_names[-idx_to_remove]
+datas = datas[-idx_to_remove]
+
+for(i in 1:length(datas)) {
+  space_name = space_names[i]
+  data = file.path(datas[i], paste(space_name, ".xyz", sep = ""))
+  print(space_name)
+  coeff = 25 # let's say all those objects have 6375m altitude (=25*255)
+  shift = "quantile 0.75" # the sea level corresponds to the 0.75 quantile of z
+  shift_type = ""
+  list_sizes = list(c(480, 270))
+  topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                           list_sizes, subfolder = "others")
+}
+
+##
+# Titan
+##
+space_name = "astre_titan"
+data = "data/others/astre_titan/astre_titan.xyz"
+coeff = 9.4488
+shift = 188
+shift_type = ""
+list_sizes = list(c(480, 270))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = "others")
+
+##
+# Simulation of the dark matter
+##
+space_name = "universe_dark_matter"
+data = "data/others/universe_dark_matter/universe_dark_matter.xyz"
+coeff = 15
+shift = 155
+shift_type = ""
+list_sizes = list(c(480, 360), c(1024, 768), c(1280, 960), c(1920, 1440))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = "others")
+
+##
+# Cosmic microwave background with Planck
+##
+space_name = "universe_planck"
+data = "data/others/universe_planck/universe_planck.xyz"
+coeff = 2
+shift = 127
+shift_type = ""
+list_sizes = list(c(1280, 640), c(1920, 960))
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = "others")
+
+##
+# Reversed world
+##
+space_name = "reversed_world"
+data = "data/world/etopo10_bedrock.xyz"
+coeff = 1
+shift = 0
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+function_on_z = function(z){return(-z)}
+
+new_intervals = c(-100000, -3500, -3000, -2500, -2000,
+                  -1500, -1000, -750, -500, -200, 
+                  0, 50, 150, 300, 600,
+                  1300, 2000, 2600, 3000, 3500,
+                  4000, 4200, 4400, 4700, 4900,
+                  5100, 5300, 5500, 5700, 100000)
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = NA, function_on_z,
+                         new_intervals)
+
+##
+# Sub world
+##
+space_name = "sub_world"
+data = "data/world/etopo10_bedrock.xyz"
+coeff = 1
+shift = 0
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+function_on_z = function(z){return(-abs(z+1)-1)}
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = NA, function_on_z)
+
+##
+# Earth's city lights
+##
+space_name = "earth_light_world"
+data = "data/others/earth_light_world/earth_light_world.xyz"
+coeff = 1
+shift = 3
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+new_intervals=c(-100000, -4.5, -4, -3.5, -3.35,
+                -3.25, -3, -2.5, -2, -1,
+                0, 1, 2, 3, 4,
+                5, 6, 7, 8, 9,
+                10, 11, 12, 13, 14,
+                15, 16, 17, 18, 100000)
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = "others", function_on_z = NA,
+                         new_intervals = new_intervals)
+
+##
+# Density of population
+##
+space_name = "earth_density"
+data = "data/others/earth_density/glds00g15.xyz"
+coeff = 1
+shift = 0
+shift_type = ""
+function_on_z = function(z){z[which(z==-9999)]=-550; return(z)}
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+
+new_intervals =c(-100000, -3500, -3000, -2500, -2000,
+                 -1500, -1000, -750, -500, 0,
+                 1, 2, 7, 15, 30,
+                 50, 100, 200, 300, 400,
+                 500, 600, 700, 800, 900,
+                 1000, 2000, 4000, 8000, 100000)
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type,
+                         list_sizes, subfolder = "others", function_on_z,
+                         new_intervals, contour_level = 1)
+
+##
+# Lightning
+##
+space_name = "earth_lightning"
+data = "data/others/earth_lightning/earth_lightning.xyz"
+coeff = 1
+shift = 6
+shift_type = ""
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+
+new_intervals=c(-100000, -8, -7, -6, -5,
+                -4, -3, -2, -1, 0,
+                1, 2, 3, 4, 5,
+                6, 7, 8, 9, 10,
+                11, 12, 13, 14, 15,
+                16, 17, 18, 19, 100000)
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = "others", function_on_z = NA,
+                         new_intervals, contour_level = 1)

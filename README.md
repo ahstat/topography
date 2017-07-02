@@ -14,6 +14,20 @@ or directly see images in the `outputs` folder.
 On the blog post, I also explain how to collect and pre-process data before
 applying this code.
 
+
+
+TODO.
+
+
+# The files have been reduced in size. You may want to get higher
+# resolution outputs by downloading directly raw files.
+
+
+
+
+
+
+
 **Some outputs**
 
 *World with 100m increase of the sea level*
