@@ -1,0 +1,26 @@
+# Location of source files.
+mars: http://pds-geosciences.wustl.edu/missions/mgs/megdr.html
+mercury_north_hemisphere: http://messenger.jhuapl.edu/the_mission/mosaics.html
+mercury_polar55N: http://messenger.jhuapl.edu/the_mission/mosaics.html
+moon: http://www.miz.nao.ac.jp/rise-pub/en/content/pub-data/topo_grid
+others/astre_amalthea: http://solarviews.com/cap/jup/amalthe4.htm
+others/astre_castalia: http://solarviews.com/cap/ast/castali3.htm
+others/astre_deimos: http://solarviews.com/cap/mars/deimos5.htm
+others/astre_epimetheus: http://solarviews.com/cap/sat/epimeth2.htm
+others/astre_gaspra: http://solarviews.com/cap/ast/gaspram1.htm
+others/astre_hyperion: http://solarviews.com/cap/sat/hyperio3.htm
+others/astre_ida: http://solarviews.com/cap/ast/idamap1.htm
+others/astre_janus: http://solarviews.com/cap/sat/janus4.htm
+others/astre_phobos: http://solarviews.com/cap/mars/phobos5.htm
+others/astre_prometheus: http://solarviews.com/cap/sat/prometh3.htm
+others/astre_protheus: http://solarviews.com/cap/nep/proteus3.htm
+others/astre_titan: http://www.nasa.gov/sites/default/files/images/748976main_pia16848-full_full.jpg
+others/astre_toutatis: http://solarviews.com/cap/ast/toutmap2.htm
+others/astre_vesta: http://solarviews.com/cap/ast/vesta1.htm
+others/earth_density: http://sedac.ciesin.columbia.edu/data/set/gpw-v3-population-density/data-download
+others/earth_light_world: http://djlorenz.github.io/astronomy/lp2006/
+others/earth_lightning: ftp://ghrc.nsstc.nasa.gov/pub/lis/climatology/HRFC/browse/HRFC_COM_FR_V2.3.2013.png
+others/universe_dark_matter: http://www.cosmotography.com/images/starburst/images/dark_matter.jpg
+others/universe_planck: http://planck.ipac.caltech.edu/image/planck13-002b
+venus: https://astrogeology.usgs.gov/search/details/Venus/Magellan/RadarProperties/Venus_Magellan_Topography_Global_4641m/cub
+world: http://maps.ngdc.noaa.gov/viewers/wcs-client/

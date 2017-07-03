@@ -1,4 +1,4 @@
-rm(list = ls())
+ï»¿rm(list = ls())
 setwd("E:/gitperso/topography/")
 #setwd("E:/to/your/directory/")
 source("helpers/convert_to_xyz.R")
@@ -38,7 +38,7 @@ options("max.contour.segments"= 300000)
 # - shift_type: the three options are "", "1000by1000" and "finer".
 # * When shift_type = "", we draw only the plot with a shift of `shift`,
 # * When shift_type = "1000by1000", we draw all possible plots with a shift of
-# `shift ¡À k*1000/coeff`. 
+# `shift Â± k*1000/coeff`. 
 # Example: For the Earth and `shift = 0`, we draw plots with a shift of:
 # -10000, -9000, ..., 6000.
 # * When shift_type = "finer", we draw the plots with shift_type = "1000by1000",
