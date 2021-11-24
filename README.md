@@ -36,3 +36,5 @@ applying this code.
 
 *Subworld*
 ![Subworld](outputs/sub_world/outputs1920/sub_world0.png)
+*Sandy world*
+![Sandy world](outputs/up_world/up_world0.png)
