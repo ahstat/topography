@@ -1,5 +1,6 @@
-﻿rm(list = ls())
-setwd("E:/gitperso/topography/")
+rm(list = ls())
+setwd("~/Documents/GitHub/topography/")
+#setwd("E:/gitperso/topography/")
 #setwd("E:/to/your/directory/")
 source("helpers/convert_to_xyz.R")
 source("helpers/filled_contour_no_legend.R")
@@ -125,13 +126,15 @@ topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_size
 # Venus
 ##
 space_name = "venus"
-data = "data/venus/MagellanReduced3-3.xyz" # MagellanReduced2-2.xyz
+data = "data/venus/Magellan.txt" # MagellanReduced2-2.xyz
+#data = "data/venus/MagellanReduced3-3.xyz"
 coeff = 1
 shift = 965 # defined to have about 70% of the surface covered by water
-
 shift_type = ""
-list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+list_sizes = list(c(8*1920, 8*1080))
+system.time(
 topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
+)
 
 shift_type = "1000by1000"
 list_sizes = list(c(1920, 1080))
@@ -271,6 +274,92 @@ function_on_z = function(z){return(-abs(z+1)-1)}
 
 topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
                          list_sizes, subfolder = NA, function_on_z)
+
+##
+# No water world
+##
+space_name = "up_world"
+data = "data/world/etopo10_bedrock.xyz"
+coeff = 1
+shift = 0
+shift_type = ""
+list_sizes = list(c(1920, 1080))
+#list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+function_on_z = function(z){return(z)} # function(z){return(-abs(z+1)-1)}
+
+# new_intervals = c(-100000, -3500, -3000, -2500, -2000,
+#                   -1500, -1000, -750, -500, -200, 
+#                   0, 50, 150, 300, 600,
+#                   1300, 2000, 2600, 3000, 3500,
+#                   4000, 4200, 4400, 4700, 4900,
+#                   5100, 5300, 5500, 5700, 100000)
+new_intervals = c(-100000, -3500, -3000, -2500, -2000,
+              -1500, -1000, -750, -500, -200,
+              0, 50, 100, 250, 500,
+              750, 1000, 1250, 1500, 1750,
+              2000, 2250, 2500, 2750, 3000,
+              3250, 3500, 3750, 4000, 100000)
+# new_intervals = c(-100000, -9900, -9800, -9700, -9600,
+#               -9500, -9400, -9300, -9200, -9100,
+#               0, # --> 0
+#               2000, 3000, 4000, 5000, # 50, 100, 250, 500
+#               7500, 10000, 12500, 15000, 17500, # 750, 1000, 1250, 1500, 1750
+#               20000, 22500, 25000, 27500, 30000, # 2000, 2250, 2500, 2750, 3000
+#               32500, 35000, 37500, 40000, 100000) # 3250, 3500, 3750, 4000, 100000
+
+
+topography_load_and_plot(space_name , data, coeff, shift , shift_type, 
+                         list_sizes, subfolder = NA, function_on_z,
+                         new_intervals)
+
+##
+# No water world 2
+##
+# How to color the map?
+colorsSea=c("#71ABD8", "#79B2DE", "#84B9E3", "#8DC1EA", "#96C9F0", 
+            "#A1D2F7", "#ACDBFB", "#B9E3FF", "#C6ECFF", "#D8F2FE")
+colorsEarth=c("#ACD0A5", "#94BF8B", "#A8C68F", "#BDCC96", "#D1D7AB", 
+              "#E1E4B5", "#EFEBC0", "#E8E1B6", "#DED6A3", "#D3CA9D", 
+              "#CAB982", "#C3A76B", "#B9985A", "#AA8753", "#AC9A7C", 
+              "#BAAE9A", "#CAC3B8", "#E0DED8", "#F5F4F2")
+colorsSea = rev(colorsEarth)
+# colorsSea=c("#D8F2FE")
+# colorsEarth=c("#ACD0A5", "#94BF8B", "#A8C68F", "#BDCC96", "#D1D7AB", 
+#               "#E1E4B5", "#EFEBC0", "#E8E1B6", "#DED6A3", "#D3CA9D", 
+#               "#CAB982", "#C3A76B", "#B9985A", "#AA8753", "#AC9A7C", 
+#               "#BAAE9A", "#CAC3B8", "#E0DED8", "#F5F4F2")
+colors=c(colorsSea,colorsEarth)
+
+# To which interval each color is related?
+# intervals = c(-100000, 
+#               0, 50, 100, 250, 500,
+#               750, 1000, 1250, 1500, 1750,
+#               2000, 2250, 2500, 2750, 3000,
+#               3250, 3500, 3750, 4000, 100000)
+# intervals = c(-100000, -3500, -3000, -2500, -2000,
+#               -1500, -1000, -750, -500, -200,
+#               0, 50, 100, 250, 500,
+#               750, 1000, 1250, 1500, 1750,
+#               2000, 2250, 2500, 2750, 3000,
+#               3250, 3500, 3750, 4000, 100000)
+intervals = c(-100000, 
+              #rep(-10000, 9)+1:9, 
+              -6500, -6000, -5750, -5500, -5250, -5000, -4750, -4500, -4250,
+              -4000, -3500, -3000, -2500,
+              -2000, -1000, -750, -500, -200,
+              0, 50, 100, 250, 500,
+              750, 1000, 1250, 1500, 1750,
+              2000, 2250, 2500, 2750, 3000,
+              3250, 3500, 3750, 4000, 100000)
+# hist(z[z < 0], breaks = 1000)
+# Plotting
+png(nameOutput, width=list_sizes[[j]][1], height=list_sizes[[j]][2])
+par(mar=c(0,0,0,0))
+#contour_level = -0.001
+contour_level = -20000
+filled.contour_nolegend(x, y, z+shift, col=colors, levels=intervals, axes=FALSE)
+contour(x, y, z+shift, add=T,levels=contour_level, col="#0978AB", drawlabels=FALSE)
+dev.off()
 
 ##
 # Earth's city lights

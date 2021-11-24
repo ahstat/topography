@@ -1,3 +1,9 @@
+from_2014/*
+data/venus/Magellan.txt
+data/venus/MagellanReduit1-1.txt
+data/venus/MagellanReduit2-2.txt
+outputs/venus_hd/*
+
 # History files
 .Rhistory
 .Rapp.history
