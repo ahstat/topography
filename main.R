@@ -126,15 +126,15 @@ topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_size
 # Venus
 ##
 space_name = "venus"
-data = "data/venus/Magellan.txt" # MagellanReduced2-2.xyz
-#data = "data/venus/MagellanReduced3-3.xyz"
+# data = "data/venus/Magellan.txt" # MagellanReduced2-2.xyz
+data = "data/venus/MagellanReduced3-3.xyz"
 coeff = 1
 shift = 965 # defined to have about 70% of the surface covered by water
 shift_type = ""
-list_sizes = list(c(8*1920, 8*1080))
-system.time(
+list_sizes = list(c(480, 270), c(1024, 576), c(1280, 720), c(1920, 1080))
+#list_sizes = list(c(8*1920, 8*1080))
+#system.time(topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes))
 topography_load_and_plot(space_name , data, coeff, shift , shift_type, list_sizes)
-)
 
 shift_type = "1000by1000"
 list_sizes = list(c(1920, 1080))
